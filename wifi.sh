@@ -6,14 +6,17 @@ COLOR_OFF='\033[0m'
 COLOR_RED='\033[0;31m'
 COLOR_GREEN='\033[0;32m'
 
-ORIG_INTERFACE_FILE="interfaces.orig"
-ORIG_INTERFACE_HOTSPOT_FILE="interfaces_hotspot.orig"
+
+TOOL_PATH="/opt/rpi-wifi-tool"
+
+ORIG_INTERFACE_FILE=${TOOL_PATH}/"interfaces.orig"
+ORIG_INTERFACE_HOTSPOT_FILE=${TOOL_PATH}/"interfaces_hotspot.orig"
 DEFAULT_INTERFACE_PATH="/etc/network/interfaces"
 
-ORIG_HOSTAPD_FILE="hostapd.conf.orig"
+ORIG_HOSTAPD_FILE=${TOOL_PATH}/"hostapd.conf.orig"
 DEFAULT_HOSTAPD_CONF_PATH="/etc/hostapd/hostapd.conf"
 
-ORIF_DNSMASQ_FILE="dnsmasq.conf.orig"
+ORIF_DNSMASQ_FILE=${TOOL_PATH}/"dnsmasq.conf.orig"
 DEFAULT_DNSMASQ_CONF_PATH="/etc/dnsmasq.conf"
 
 
@@ -62,11 +65,14 @@ open_hotspot(){
     sudo systemctl start hostapd
     sudo systemctl enable hostapd
 
+    sudo cp ${ORIG_INTERFACE_HOTSPOT_FILE} ${DEFAULT_INTERFACE_PATH}
+    sync
+    sudo ifup wlan0 # activate wlan0, because dnsmasq needs networking
+
     sudo systemctl start dnsmasq
     sudo systemctl enable dnsmasq    
 
-    sudo cp ${ORIG_INTERFACE_HOTSPOT_FILE} ${DEFAULT_INTERFACE_PATH}    
-    sudo ifup wlan0
+    
     print_message ${COLOR_GREEN} "WIFI-HOTSPOT MODE ACTIVE"
 }
 

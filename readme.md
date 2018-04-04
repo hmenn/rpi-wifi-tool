@@ -8,6 +8,7 @@ switching mode between hotspot and client.
 
 
 ### How to use
+* Update TOOL_PATH from wifi.sh file according to rpi-wifi-tool directory.
 * First prepare environment
     - bash wifi.sh prepare
 * To open hotspot mode
