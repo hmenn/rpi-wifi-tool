@@ -28,13 +28,18 @@ prepare(){
     # install required packages
     print_message ${COLOR_GREEN} "Prepare/Install required packages"
     sudo apt-get update
+    
     print_message ${COLOR_GREEN} "Installing hostapd"
     sudo apt-get install hostapd
+
     print_message ${COLOR_GREEN} "Installing dnsmasq"    
     sudo apt-get install dnsmasq
+
     print_message ${COLOR_GREEN} "Stopping dnsmasq and hostapd services"
     sudo systemctl stop hostapd
+    sudo systemctl disable hostapd
     sudo systemctl stop dnsmasq
+    sudo systemctl disable dnsmasq
     
     print_message ${COLOR_GREEN} "Prepare interfaces, hostapd.conf and dnsmasq.conf file"
     sudo cp ${ORIG_INTERFACE_FILE} ${DEFAULT_INTERFACE_PATH}
