@@ -28,19 +28,19 @@ prepare(){
     # install required packages
     print_message ${COLOR_GREEN} "Prepare/Install required packages"
     sudo apt-get update
-    
-    print_message ${COLOR_GREEN} "Installing hostapd"
-    sudo apt-get install hostapd
 
-    print_message ${COLOR_GREEN} "Installing dnsmasq"    
-    sudo apt-get install dnsmasq
+    print_message ${COLOR_GREEN} "Installing hostapd"
+    sudo apt-get install -y hostapd
+
+    print_message ${COLOR_GREEN} "Installing dnsmasq"
+    sudo apt-get install -y dnsmasq
 
     print_message ${COLOR_GREEN} "Stopping dnsmasq and hostapd services"
     sudo systemctl stop hostapd
     sudo systemctl disable hostapd
     sudo systemctl stop dnsmasq
     sudo systemctl disable dnsmasq
-    
+
     print_message ${COLOR_GREEN} "Prepare interfaces, hostapd.conf and dnsmasq.conf file"
     sudo cp ${ORIG_INTERFACE_FILE} ${DEFAULT_INTERFACE_PATH}
     sudo cp ${ORIG_HOSTAPD_FILE} ${DEFAULT_HOSTAPD_CONF_PATH}
@@ -75,9 +75,9 @@ open_hotspot(){
     sudo ifup wlan0 # activate wlan0, because dnsmasq needs networking
 
     sudo systemctl start dnsmasq
-    sudo systemctl enable dnsmasq    
+    sudo systemctl enable dnsmasq
 
-    
+
     print_message ${COLOR_GREEN} "WIFI-HOTSPOT MODE ACTIVE"
 }
 
